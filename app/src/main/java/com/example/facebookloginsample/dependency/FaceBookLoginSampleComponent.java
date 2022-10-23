@@ -3,6 +3,7 @@ package com.example.facebookloginsample.dependency;
 import android.content.Context;
 
 import com.example.facebookloginsample.MainActivity;
+import com.example.facebookloginsample.ui.login.LoginActivity;
 
 import javax.inject.Singleton;
 
@@ -14,6 +15,8 @@ import dagger.Component;
 public abstract class FaceBookLoginSampleComponent {
 
     public abstract void inject(MainActivity activity);
+
+    public abstract void inject(LoginActivity loginActivity);
 
     @Component.Builder
     public  interface Builder {

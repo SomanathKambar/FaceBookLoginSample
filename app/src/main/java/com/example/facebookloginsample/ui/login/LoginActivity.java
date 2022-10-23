@@ -2,6 +2,7 @@ package com.example.facebookloginsample.ui.login;
 
 import android.app.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -16,18 +17,23 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.facebookloginsample.FaceBookLoginSampleApp;
 import com.example.facebookloginsample.R;
-import com.example.facebookloginsample.ui.login.LoginViewModel;
-import com.example.facebookloginsample.ui.login.LoginViewModelFactory;
 import com.example.facebookloginsample.databinding.ActivityLoginBinding;
 import com.example.facebookloginsample.util.FaceBookLoginSharedPreferenceManager;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.Arrays;
 
 import javax.inject.Inject;
 
@@ -45,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
 
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        ((FaceBookLoginSampleApp)getApplicationContext()).getComponent().inject(this);
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
@@ -53,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         final TextInputEditText passwordEditText = binding.password;
         final TextView loginButton = binding.login;
         final ProgressBar loadingProgressBar = binding.loading;
+        final LoginButton loginWithFB = binding.loginWithFacebook;
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -127,6 +134,53 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
+            }
+        });
+
+
+         String EMAIL = "email";
+
+
+        loginWithFB.setReadPermissions(Arrays.asList(EMAIL));
+        // If you are using in a fragment, call loginButton.setFragment(this);
+     CallbackManager  callbackManager = CallbackManager.Factory.create();
+        // Callback registration
+        loginWithFB.registerCallback(callbackManager, new FacebookCallback<com.facebook.login.LoginResult>() {
+            @Override
+            public void onSuccess(com.facebook.login.LoginResult loginResult) {
+                setResult(Activity.RESULT_OK);
+                finish();
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(@NonNull FacebookException e) {
+
+            }
+        });
+
+
+        LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<com.facebook.login.LoginResult>() {
+            @Override
+            public void onSuccess(com.facebook.login.LoginResult loginResult) {
+                sharedPreferenceManager.setFBAccessToken(loginResult.getAccessToken());
+                setResult(Activity.RESULT_OK);
+                finish();
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(@NonNull FacebookException e) {
+
             }
         });
     }

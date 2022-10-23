@@ -2,8 +2,10 @@
     <string name="app_name">FaceBookLoginSample</string>
 
     <string name="facebook_app_id">494894382360165</string>
+    <string name="facebook_app_id2">656608176071133</string>
     <string name="fb_login_protocol_scheme">fb1234</string>
     <string name="facebook_client_token">3dd5325c7dc0449d6e015d496619c2c7</string>
+    <string name="facebook_client_token2">EAAHCGpPcpmUBADnxlyrdKZB9ol62ph0EXJZB9aZAJOKVcZARwLRLZBeFPFZA7W6ZBguwdXRgjIsgLtraKsSCB2WCo6kyIibzCw2czzG7wUpxrsPGzprit0Nf7XbaV37ZARwZCi9zAEAHj9ublYDf11IKZAj7SZCbEsgiLafi3kdYZCGAJbutcUcvS88qEbfLE8Opglrglws8YmLmCLmK9YrdWSvFBZCl7oet7f7lHUQcNJPkmGoTZAGGvSyOWxcV23xMkOWoYZD</string>
     <string name="facebook_client_token_hash">VzSiQcXRmi2kyjzcA+mYLEtbGVs=</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>

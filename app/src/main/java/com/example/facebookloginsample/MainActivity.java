@@ -14,6 +14,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.example.facebookloginsample.databinding.ActivityMainBinding;
 import com.example.facebookloginsample.home.HomeViewPagerAdapter;
 import com.example.facebookloginsample.home.Repository.HomePageRepository;
 import com.example.facebookloginsample.util.FaceBookLoginSharedPreferenceManager;
@@ -84,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
         }, 500);
 
 
-       // tabs.setSelectedTabIndicator(ResourcesCompat.getDrawable(getResources(),R.drawable.tabs_background, null));
     }
 
     @Override
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ActivityRouter.REQUEST_CODE_LOGIN) {
             if(resultCode == Activity.RESULT_OK) {
-
+                sharedPreferenceManager.setUserLoggedIn(true);
             }
         }
     }
