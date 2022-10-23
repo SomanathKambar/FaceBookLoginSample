@@ -1,9 +1,11 @@
 package com.example.facebookloginsample;
 
 import androidx.activity.result.ActivityResult;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -13,16 +15,21 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.facebookloginsample.databinding.ActivityMainBinding;
 import com.example.facebookloginsample.home.HomeViewPagerAdapter;
+import com.example.facebookloginsample.home.ItemFragment;
 import com.example.facebookloginsample.home.Repository.HomePageRepository;
+import com.example.facebookloginsample.subscribe.SubscriptionFragment;
 import com.example.facebookloginsample.util.FaceBookLoginSharedPreferenceManager;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONException;
@@ -43,54 +50,48 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     HomePageRepository homePageRepository;
 
-    TabLayout tabs;
-    ViewPager viewpager;
+
+   private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         ((FaceBookLoginSampleApp)getApplication()).getComponent().inject(this);
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(getApplication());
         if(!sharedPreferenceManager.isUerLoggedIn()) {
             activityRouter.goToLoginActivity(this);
         }
-        setupTabs();
+        handleBottomNavigation();
+        addFragment(0);
     }
 
-    private void setupTabs() {
-        tabs = findViewById(R.id.tabs);
-        viewpager = findViewById(R.id.viewpager);
-        viewpager.setAdapter(new HomeViewPagerAdapter(homePageRepository, getSupportFragmentManager()));
-        tabs.setupWithViewPager(viewpager);
-        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                tab.view.setSelected(true);
-                tab.view.setBackgroundResource(R.drawable.tabs_background);
-            }
+    private void addFragment(int pos) {
+        Fragment fragment = null;
+        switch (pos) {
+            case 0: fragment = new MainFragment();
+            break;
+            case 1: fragment = new MainFragment();
+            break;
+            case 2: fragment = new SubscriptionFragment();
+            break;
+            default: throw  new IllegalArgumentException();
+        }
+        getSupportFragmentManager().popBackStack();
+        getSupportFragmentManager().
+                beginTransaction().replace(R.id.fragment_container, fragment).commitAllowingStateLoss();
+    }
 
+    private void handleBottomNavigation() {
+        binding.botomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                tab.view.setSelected(false);
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                tab.view.setSelected(true);
-                tab.view.setBackgroundResource(R.drawable.tabs_background);
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                addFragment(item.getOrder());
+                return true;
             }
         });
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                tabs.selectTab(tabs.getTabAt(0));
-            }
-        }, 500);
-
-
     }
 
     @Override
