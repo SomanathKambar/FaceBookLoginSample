@@ -3,15 +3,20 @@ package com.example.facebookloginsample;
 import androidx.activity.result.ActivityResult;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.facebookloginsample.home.HomeViewPagerAdapter;
+import com.example.facebookloginsample.home.Repository.HomePageRepository;
 import com.example.facebookloginsample.util.FaceBookLoginSharedPreferenceManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.android.material.tabs.TabLayout;
 
 import javax.inject.Inject;
 
@@ -25,6 +30,12 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     FaceBookLoginSharedPreferenceManager sharedPreferenceManager;
 
+    @Inject
+    HomePageRepository homePageRepository;
+
+    TabLayout tabs;
+    ViewPager viewpager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +46,14 @@ public class MainActivity extends AppCompatActivity {
         if(!sharedPreferenceManager.isUerLoggedIn()) {
             activityRouter.goToLoginActivity(this);
         }
+        setupTabs();
+    }
+
+    private void setupTabs() {
+        tabs = findViewById(R.id.tabs);
+        viewpager = findViewById(R.id.viewpager);
+        viewpager.setAdapter(new HomeViewPagerAdapter(homePageRepository, getSupportFragmentManager()));
+        tabs.setupWithViewPager(viewpager);
     }
 
     @Override

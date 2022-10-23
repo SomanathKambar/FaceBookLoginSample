@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.facebookloginsample.home.HomeViewPagerAdapter;
+import com.example.facebookloginsample.home.Repository.HomePageRepository;
 import com.example.facebookloginsample.util.FaceBookLoginSharedPreferenceManager;
 
 import dagger.Module;
@@ -23,5 +25,10 @@ public interface FaceBookLoginSampleModule {
     @Provides
     public static FaceBookLoginSharedPreferenceManager providesSharedPreferenceManager(Context application) {
         return new FaceBookLoginSharedPreferenceManager(application);
+    }
+
+    @Provides
+    public static HomePageRepository provideHomePageRepository() {
+        return new HomePageRepository();
     }
 }
