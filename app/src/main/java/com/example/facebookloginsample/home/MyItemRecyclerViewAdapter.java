@@ -32,11 +32,6 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
     }
 
     @Override
-    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-    }
-
-    @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Glide.with(holder.mContentView.getContext())
                 .load(mValues.get(position).content)
