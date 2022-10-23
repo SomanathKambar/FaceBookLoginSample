@@ -1,0 +1,6 @@
+ext {
+    gradle_version = "7.0.4"
+    facebook_login_version = "15"
+    facebook_sdk_version = "5.15.3"
+    daggerVersion = "2.34"
+}

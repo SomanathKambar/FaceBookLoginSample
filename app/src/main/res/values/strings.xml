@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">FaceBookLoginSample</string>
+
+    <string name="facebook_app_id">494894382360165</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="facebook_client_token">3dd5325c7dc0449d6e015d496619c2c7</string>
+    <string name="facebook_client_token_hash">VzSiQcXRmi2kyjzcA+mYLEtbGVs=</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_up">Sign up</string>
+    <string name="account_query">Don\'t have an account? <a href="https://learntodroid.com">LearnToDroid.com</a></string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+
+
 </resources>
