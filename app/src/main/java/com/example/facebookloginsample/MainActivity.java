@@ -13,14 +13,20 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.Toast;
 
 import com.example.facebookloginsample.databinding.ActivityMainBinding;
 import com.example.facebookloginsample.home.HomeViewPagerAdapter;
 import com.example.facebookloginsample.home.Repository.HomePageRepository;
 import com.example.facebookloginsample.util.FaceBookLoginSharedPreferenceManager;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.android.material.tabs.TabLayout;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.inject.Inject;
 
@@ -93,7 +99,30 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode == ActivityRouter.REQUEST_CODE_LOGIN) {
             if(resultCode == Activity.RESULT_OK) {
                 sharedPreferenceManager.setUserLoggedIn(true);
+                UpdateUserInfo();
             }
         }
+    }
+
+    private void UpdateUserInfo() {
+        GraphRequest request = GraphRequest.newMeRequest(
+                sharedPreferenceManager.getFBAccessToken(),
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(
+                            JSONObject object,
+                            GraphResponse response) {
+                        try {
+                            String name = object.getString("name");
+                            Toast.makeText(MainActivity.this, "Welcome: " + name, Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,name,link");
+        request.setParameters(parameters);
+        request.executeAsync();
     }
 }
