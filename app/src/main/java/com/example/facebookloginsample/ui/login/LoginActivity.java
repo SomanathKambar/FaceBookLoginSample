@@ -27,6 +27,7 @@ import com.example.facebookloginsample.ui.login.LoginViewModel;
 import com.example.facebookloginsample.ui.login.LoginViewModelFactory;
 import com.example.facebookloginsample.databinding.ActivityLoginBinding;
 import com.example.facebookloginsample.util.FaceBookLoginSharedPreferenceManager;
+import com.google.android.material.textfield.TextInputEditText;
 
 import javax.inject.Inject;
 
@@ -49,8 +50,8 @@ public class LoginActivity extends AppCompatActivity {
                 .get(LoginViewModel.class);
 
         final EditText usernameEditText = binding.username;
-        final EditText passwordEditText = binding.password;
-        final Button loginButton = binding.login;
+        final TextInputEditText passwordEditText = binding.password;
+        final TextView loginButton = binding.login;
         final ProgressBar loadingProgressBar = binding.loading;
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {

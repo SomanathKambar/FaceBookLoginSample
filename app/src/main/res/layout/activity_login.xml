@@ -32,23 +32,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userImage" />
 
-    <EditText
-        android:id="@+id/password"
+    <com.google.android.material.textfield.TextInputLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/password_root"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="@string/prompt_password"
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
         android:inputType="textPassword"
         android:selectAllOnFocus="true"
-        android:padding="10dp"
-        android:background="@drawable/edittext_background"
+        app:passwordToggleEnabled="true"
+        android:background="@null"
+        app:passwordToggleDrawable="@drawable/ic_eye"
         app:layout_constraintEnd_toEndOf="parent"
+        app:passwordToggleTintMode="multiply"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toBottomOf="@+id/username">
 
-    <Button
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:textColorHint="@color/hint_color"
+            android:hint="@string/prompt_password"
+            android:background="@drawable/edittext_background"
+            android:layout_height="wrap_content"
+            app:passwordToggleDrawable="@drawable/ic_eye"
+            android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <TextView
         android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -56,11 +67,16 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="64dp"
         android:enabled="false"
+        android:padding="15dp"
+        android:textSize="16dp"
+        android:fontFamily="sans-serif-black"
+        android:textColor="#fbffff"
         android:text="@string/action_sign_in"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
+        android:background="@drawable/login_button_bg"
+        app:layout_constraintTop_toBottomOf="@+id/password_root"
         app:layout_constraintVertical_bias="0.2" />
 
     <ProgressBar
@@ -72,8 +88,8 @@
         android:layout_marginBottom="64dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/password"
-        app:layout_constraintStart_toStartOf="@+id/password"
+        app:layout_constraintEnd_toEndOf="@+id/password_root"
+        app:layout_constraintStart_toStartOf="@+id/password_root"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3" />
 
